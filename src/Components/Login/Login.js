@@ -5,7 +5,7 @@ import { Firebase } from "../../firebase/config";
 import Logo from "../../olx-logo.png";
 import RoundLoading from "../Loading/RoundLoading";
 import "./Login.css";
-
+import { useGoogleLogin } from "@react-oauth/google";
 function Login() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -26,6 +26,15 @@ function Login() {
         setLoading(false);
       });
   };
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log(tokenResponse);
+      history.push("/");
+    },
+    onError: (err) => {
+      console.log("Login Failed", err);
+    },
+  });
   return (
     <>
       {loading && <RoundLoading />}
@@ -57,6 +66,7 @@ function Login() {
             <br />
             <br />
             <button>Login</button>
+            <button onClick={() => login()}>Google</button>
           </form>
           <Link to="/signup">Signup</Link>
         </div>
@@ -64,5 +74,5 @@ function Login() {
     </>
   );
 }
-
+//1039592446485-t6ael103e1vtiprre4i3muhbuvgimpsi.apps.googleusercontent.com
 export default Login;
